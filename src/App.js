@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useEffect } from 'react';
+
+import socket from './socket';
+import axios from 'axios';
+import Join from './components/Join';
+import reducer from './reducer';
+import Chat from './components/Chat';
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, {
+    joined: false,
+    userName: null,
+    roomId: null,
+    users: [],
+  });
+  const onLogin = async (obj) => {
+    dispatch({
+      type: 'JOINED',
+      payload: obj,
+    });
+    socket.emit('ROOM:JOIN', obj);
+    const { data } = await axios.get(`/rooms/${obj.roomId}`);
+    setUsers(data.users);
+  };
+
+  const setUsers = (users) => {
+    dispatch({
+      type: 'ROOM:GET_USERS',
+      payload: users,
+    });
+  };
+
+  useEffect(() => {
+    socket.on('ROOM:GET_USERS', setUsers);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container pt-4">
+      {!state.joined ? <Join onLogin={onLogin} /> : <Chat {...state} />}
     </div>
   );
 }

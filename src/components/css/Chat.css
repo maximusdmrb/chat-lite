@@ -1,0 +1,30 @@
+.content {
+  display: flex;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.users,
+.chat {
+  padding: 20px 40px;
+}
+
+.text-message {
+  background: seagreen;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-bottom: 5px !important;
+}
+
+.time-message {
+  float: right;
+  color: #969595;
+}
+
+textarea {
+  margin-top: 20px !important;
+  width: 100%;
+}
