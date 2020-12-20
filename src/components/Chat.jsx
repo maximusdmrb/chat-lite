@@ -23,7 +23,7 @@ export default function Chat({ users }) {
               <span className="user">
                 <b>Max:</b>
               </span>{' '}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, facilis!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, facilis! #dwef
             </p>
             <span className="time-message">12:24</span>
           </div>
