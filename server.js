@@ -4,7 +4,7 @@ const app = express();
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
-  cors: { origin: 'http://localhost:3000' },
+  cors: { origin: 'http://172.20.10.3:3000' },
 });
 
 app.use(express.json());

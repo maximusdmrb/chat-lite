@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import socket from '../socket';
 import './css/Chat.css';
 
-export default function Chat({ roomId, userName, users, messages }) {
+export default function Chat({ roomId, userName, users, messages, addMessage }) {
+  document.title = userName;
   const [message, setMessage] = useState('');
   const sendMessage = () => {
     socket.emit('ROOM:SET_MESSAGES', { userName, roomId, text: message });
+    addMessage({ userName, text: message });
+    setMessage('');
   };
   return (
     <>
@@ -22,7 +25,7 @@ export default function Chat({ roomId, userName, users, messages }) {
         </div>
         <div className="chat">
           {messages.map((message) => (
-            <div key={message} className="block-message">
+            <div key={message.text + message.userName} className="block-message">
               <p className="text-message">
                 <span className="user">
                   <b>{message.userName}</b>
