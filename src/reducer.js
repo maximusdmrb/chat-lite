@@ -12,6 +12,11 @@ export default (state, action) => {
         ...state,
         users: action.payload,
       };
+    case 'GET_MESSAGES':
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
+      };
     default:
       return state;
   }

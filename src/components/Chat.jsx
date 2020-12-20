@@ -1,10 +1,13 @@
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
+import socket from '../socket';
 import './css/Chat.css';
 
-export default function Chat({ users }) {
+export default function Chat({ roomId, userName, users, messages }) {
   const [message, setMessage] = useState('');
-
+  const sendMessage = () => {
+    socket.emit('ROOM:SET_MESSAGES', { userName, roomId, text: message });
+  };
   return (
     <>
       <h1>Чат</h1>
@@ -18,15 +21,17 @@ export default function Chat({ users }) {
           </ul>
         </div>
         <div className="chat">
-          <div className="block-message">
-            <p className="text-message">
-              <span className="user">
-                <b>Max:</b>
-              </span>{' '}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, facilis! #dwef
-            </p>
-            <span className="time-message">12:24</span>
-          </div>
+          {messages.map((message) => (
+            <div key={message} className="block-message">
+              <p className="text-message">
+                <span className="user">
+                  <b>{message.userName}</b>
+                </span>{' '}
+                {message.text}
+              </p>
+              <span className="time-message">12:24</span>
+            </div>
+          ))}
           <textarea
             onChange={(e) => {
               setMessage(e.target.value);
@@ -35,7 +40,7 @@ export default function Chat({ users }) {
             name=""
             id=""
             rows="2"></textarea>
-          <Button onClick={() => alert(message)} varian="primary">
+          <Button onClick={sendMessage} varian="primary">
             Отправить
           </Button>
         </div>

@@ -12,6 +12,7 @@ function App() {
     userName: null,
     roomId: null,
     users: [],
+    messages: [],
   });
   const onLogin = async (obj) => {
     dispatch({
@@ -32,6 +33,12 @@ function App() {
 
   useEffect(() => {
     socket.on('ROOM:GET_USERS', setUsers);
+    socket.on('ROOM:GET_MESSAGES', (message) => {
+      dispatch({
+        type: 'GET_MESSAGES',
+        payload: message,
+      });
+    });
   }, []);
 
   return (
